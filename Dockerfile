@@ -13,22 +13,25 @@ https://github.com/Sabayon/sabayon-sark/archive/master.zip
 
 ## Add Chroot Subunit. 
 ADD http://distfiles.gentoo.org/experimental/arm/arm64/stage3-arm64-20160324.tar.bz2 /gentoo-arm64/
-
+ADD https://raw.githubusercontent.com/Sabayon-Labs/Sabayon-arm64-builder/master/aarch64-make.conf /gentoo-arm64/etc/portage/
+RUN mv /gentoo-arm64/etc/portage/make.conf /gentoo-arm64/etc/portage/make.conf.original
+RUN mv  /gentoo-arm64/etc/portage/aarch64-make.conf /gentoo-arm64/etc/portage/make.conf
 # Set locales to en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
 
 # Define working directory.
-WORKDIR /gentoo-arm64/
+
 
 # Define standard volumes
 VOLUME ["/usr/portage", "/usr/portage/distfiles", "/usr/portage/packages", "/var/lib/layman/]
-### Define were to get the goodies from for arm64 on AMD64 Host container.
-VOLUME ["/gentoo-arm64/packages"]
+### Define were to get the goodies from for arm64 on AMD64 Host container. Export chroot vol just in case of 
+## Sh* hitting the fan... 
+VOLUME ["/gentoo-arm64/packages" "/gentoo-arm64" "/gentoo-arm64/entropy-packages"]
 
 ### DO  mounts or symlinks 
 RUN mount -o -R /usr/portage /gentoo-arm64/usr/portage/
-RUN  mkdir /gentoo-arm64/var/portage/packages/ 
+RUN  mkdir /gentoo-arm64/packages/  && mkdir /gentoo-arm64/entropy-packages
 RUN mount -o -R  /gentoo-arm64/packages/  /gentoo-arm64/usr/portage/packages
 RUN mount -o  -R  /var/lib/layman/ /gentoo-arm64/var/lib/layman/
 
