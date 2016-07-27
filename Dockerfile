@@ -2,8 +2,9 @@
 FROM sabayon/builder-amd64-squashed
 
 ######## ADD Layman
-RUN equo up && equo i layman git eix sabayon-devkit
-layman -L && layman -a sabayon  && layman -a sabayon-distro
+RUN equo up && equo i layman git eix sabayon-devkit sabayon-sark
+# layman -L && layman -a sabayon  && layman -a sabayon-distro
+RUN layman -S
 
 build /ADD Proot chroot misc binformat tools for arm/arm64 etc. 
 ADD https://raw.githubusercontent.com/mickael-guene/proot-static-build/master-umeq/static/proot-x86_64 /usr/bin/proot
