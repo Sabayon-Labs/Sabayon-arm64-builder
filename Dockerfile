@@ -1,5 +1,5 @@
 ######### Arm64 Gentoo Cross Container for AMD64 & or P-ROOT (Chroot) to fake arm64 enviorment.
-FROM sabayon/builder-amd64-squashed
+FROM sabayon/builder-amd64-squashed docker pull
 
 ######## ADD Layman
 RUN equo up && equo i layman git eix sabayon-devkit sabayon-sark
